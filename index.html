@@ -12,12 +12,13 @@
 #myNumActions{display:flex;justify-content:space-between;align-items:center}
 #myNumActions button{font-size:17px;padding:12px}
 input[type="number"]{font-size:16px;cursor:pointer;touch-action:manipulation}\n
-.rest-sound-switch{display:inline-flex;align-items:center;gap:10px;background:transparent;padding:5px 0;border:0;color:#17243a;font-weight:600}
-.rest-sound-switch .switch-track{display:inline-flex;align-items:center;width:47px;height:28px;padding:3px;border-radius:30px;background:#9ca3af;transition:background .18s}
+.rest-sound-switch{display:flex;align-items:center;flex-wrap:nowrap;gap:10px;width:100%;text-align:left;background:transparent;padding:5px 0;border:0;color:#17243a;font-weight:600}
+.rest-sound-switch .switch-track{flex:0 0 47px;display:inline-flex;align-items:center;width:47px;height:28px;padding:3px;border-radius:30px;background:#9ca3af;transition:background .18s}
 .rest-sound-switch[aria-checked="true"] .switch-track{background:#16a34a}
 .rest-sound-switch .switch-knob{width:22px;height:22px;background:white;border-radius:50%;box-shadow:0 1px 3px #0003;transition:transform .18s}
 .rest-sound-switch[aria-checked="true"] .switch-knob{transform:translateX(19px)}
-.rest-sound-switch .rest-sound-label{display:inline-flex;align-items:center;line-height:20px;margin-left:6px;text-align:left}\n.rest-sound-switch .bell-icon{flex-shrink:0;vertical-align:middle;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rest-sound-switch .rest-sound-label{display:inline-flex;align-items:center;line-height:20px;margin-left:4px;text-align:left}
+.rest-sound-switch .bell-icon{display:block;flex:0 0 20px;vertical-align:middle;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 </style></head><body><main><header><div><h1>MyGym <span style="color:#2265e8">6.10</span></h1><div class="muted">Тренировки без лишних действий</div></div><span class="tag" id="saved">Данные на устройстве</span></header>
 <section id="training" class="tab active"><div class="card"><div class="row between"><div><div class="muted">Время тренировки</div><div class="timer" id="clock">00:00:00</div></div><div class="row"><button id="start" class="primary" onclick="startWorkout()">Начать тренировку</button><button id="finish" onclick="finishWorkout()" style="display:none">Завершить</button></div></div><div id="rest" class="muted" style="margin-top:10px"></div><div id="workoutNotice" class="muted" aria-live="polite"></div></div><div id="workout"></div></section>
 <section id="library" class="tab"><div class="card"><h2>Каталог упражнений</h2><input id="search" placeholder="Поиск упражнения..." style="width:100%" oninput="renderLibrary()"><div class="chips" id="filters"></div><div id="catalogItems"></div><div class="actions"><button onclick="addCustom()">＋ Своё упражнение</button></div></div></section>
