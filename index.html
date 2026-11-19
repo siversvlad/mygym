@@ -260,8 +260,8 @@ function myNumClose(ok){
  myNumTarget=null;document.getElementById('myNumPad').classList.remove('open');
  if(ok&&myNumTyped){input.value=myNumTyped.replace(',','.');input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));}
 }
-document.addEventListener('click',e=>{let input=e.target.closest('input[type="number" inputmode="none" readonly]');if(input){e.preventDefault();myNumOpen(input)}});
-document.addEventListener('focusin',e=>{if(e.target.matches('input[type="number" inputmode="none" readonly]'))myNumOpen(e.target)});
+document.addEventListener('click',e=>{let input=e.target.closest('input[type="number"]');if(input){e.preventDefault();myNumOpen(input)}});
+document.addEventListener('focusin',e=>{if(e.target.matches('input[type="number"]'))myNumOpen(e.target)});
 document.addEventListener('keydown',e=>{if(!myNumTarget)return;
  if(e.key==='Escape'){myNumClose(false);e.preventDefault()}
  else if(e.key==='Enter'){myNumClose(true);e.preventDefault()}
