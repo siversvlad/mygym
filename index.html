@@ -1,7 +1,7 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MyGym 5.9</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#17243a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="MyGym"><link rel="apple-touch-icon" href="./icon-192.png"><style>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MyGym 6.0</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#17243a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="MyGym"><link rel="apple-touch-icon" href="./icon-192.png"><style>
 :root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#17243a;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 13px;background:#e8edf5;color:#17243a}button.primary{background:#2265e8;color:white}button.danger{background:#ffe9e8;color:#b42318}button.small{padding:7px 10px;font-size:13px}input,select{border:1px solid #d6deea;border-radius:10px;padding:10px;min-width:0;background:white;color:#17243a}main{max-width:760px;margin:auto;padding:18px 15px 95px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}h1{font-size:24px;margin:0}h2{font-size:20px;margin:8px 0 14px}h3{font-size:16px;margin:0 0 9px}.muted{color:#67768d;font-size:13px}.card{background:white;border:1px solid #e5eaf2;border-radius:17px;padding:16px;margin-bottom:13px;box-shadow:0 2px 10px #17243a07}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.tabs{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e3e8ef;display:flex;justify-content:center;z-index:5;padding:8px 4px env(safe-area-inset-bottom)}.tabs button{background:transparent;flex:1;max-width:180px;padding:8px 2px;font-size:12px}.tabs button.active{color:#2265e8;background:#edf3ff}.tab{display:none}.tab.active{display:block}.chips{display:flex;gap:7px;overflow:auto;padding:4px 0 12px}.chips button{white-space:nowrap;font-size:13px}.chips .active{background:#2265e8;color:white}.exrow{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef1f6;padding:10px 0;gap:8px}.exrow:last-child{border:0}.tap-ex{width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid #eef1f6;border-radius:0;padding:13px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:58px}.tap-ex.selected{background:#eaf5ee;color:#166534;border-radius:10px}.tap-ex .mark{font-size:22px;color:#94a3b8}.tap-ex.selected .mark{color:#16803c}.tap-ex:active{background:#e8edf5}.catalog-row{display:flex;align-items:center;border-bottom:1px solid #eef1f6}.catalog-row .tap-ex{flex:1;border:0}.catalog-row .fav{flex:none}.sets{width:100%;border-collapse:collapse;margin-top:8px}.sets td,.sets th{padding:5px 3px;text-align:center;font-size:13px}.sets input{width:100%;max-width:105px;text-align:center;padding:8px 3px}.sets input[type=checkbox]{width:20px;height:20px}.phase{font-weight:700;margin:20px 0 10px}.timer{font-size:32px;font-weight:750;font-variant-numeric:tabular-nums}.field{display:grid;gap:5px;flex:1;min-width:125px;margin-bottom:10px}.field label{font-size:13px;color:#56657a}.overlay{position:fixed;inset:0;background:#10213a99;z-index:10;display:none;align-items:flex-end;justify-content:center}.overlay.open{display:flex}.sheet{background:#f7f9fc;width:100%;max-width:760px;border-radius:22px 22px 0 0;padding:17px;max-height:88vh;overflow:auto}.tag{font-size:11px;color:#536782;background:#edf2f8;padding:4px 7px;border-radius:8px}.empty{text-align:center;color:#6c7c91;padding:18px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}@media(min-width:800px){.overlay{align-items:center}.sheet{border-radius:22px;max-height:85vh}}
- .drag-handle{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background:#edf3ff;color:#2265e8;font-size:21px;min-width:43px;min-height:43px}.dragging{opacity:.5;border:2px dashed #2265e8}.drop-target{outline:2px solid #2265e8;outline-offset:2px} </style></head><body><main><header><div><h1>MyGym <span style="color:#2265e8">5.8</span></h1><div class="muted">Тренировки без лишних действий</div></div><span class="tag" id="saved">Данные на устройстве</span></header>
-<section id="training" class="tab active"><div class="card"><div class="row between"><div><div class="muted">Время тренировки</div><div class="timer" id="clock">00:00:00</div></div><div class="row"><button id="start" class="primary" onclick="startWorkout()">Начать тренировку</button><button id="finish" onclick="finishWorkout()" style="display:none">Завершить</button></div></div><div id="rest" class="muted" style="margin-top:10px"></div><div id="workoutNotice" class="muted" aria-live="polite"></div></div><div id="workout"></div></section>
+ .drag-handle{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background:#edf3ff;color:#2265e8;font-size:21px;min-width:43px;min-height:43px}.dragging{opacity:.5;border:2px dashed #2265e8}.drop-target{outline:2px solid #2265e8;outline-offset:2px} </style></head><body><main><header><div><h1>MyGym <span style="color:#2265e8">6.0</span></h1><div class="muted">Тренировки без лишних действий</div></div><span class="tag" id="saved">Данные на устройстве</span></header>
+<section id="training" class="tab active"><div class="card"><div class="row between"><div><div class="muted">Время тренировки</div><div class="timer" id="clock">00:00:00</div></div><div class="row"><button id="start" class="primary" onclick="startWorkout()">Начать тренировку</button><button id="finish" onclick="finishWorkout()" style="display:none">Завершить</button></div></div><div class="actions"><button type="button" id="backgroundAudioToggle" onclick="toggleBackgroundAudio()">Фоновый звук: ВЫКЛ</button></div><div class="muted">Эксперимент: при отдыхе воспроизводится аудиодорожка. При блокировке iPhone звук не гарантирован. Включай только для проверки.</div><div id="rest" class="muted" style="margin-top:10px"></div><div id="workoutNotice" class="muted" aria-live="polite"></div></div><div id="workout"></div></section>
 <section id="library" class="tab"><div class="card"><h2>Каталог упражнений</h2><input id="search" placeholder="Поиск упражнения..." style="width:100%" oninput="renderLibrary()"><div class="chips" id="filters"></div><div id="catalogItems"></div><div class="actions"><button onclick="addCustom()">＋ Своё упражнение</button></div></div></section>
 <section id="history" class="tab"><h2>История тренировок</h2><div id="historyItems"></div></section>
 <section id="profile" class="tab"><h2>Профиль спортсмена</h2><div class="card"><div class="row"><div class="field"><label>Имя</label><input id="pname" placeholder="Имя"></div><div class="field"><label>Пол</label><select id="psex"><option value="">Не указан</option><option value="m">Мужской</option><option value="f">Женский</option></select></div></div><div class="row"><div class="field"><label>Возраст, лет</label><input id="page" type="number" min="1"></div><div class="field"><label>Рост, см</label><input id="pheight" type="number" min="1"></div><div class="field"><label>Вес, кг</label><input id="pweight" type="number" min="1" step=".1"></div></div><div class="field"><label>Интенсивность тренировки</label><select id="pintensity"><option value="3">Лёгкая</option><option value="4">Средняя</option><option value="5.5">Высокая</option></select></div><button class="primary" onclick="saveProfile()">Сохранить профиль</button><p class="muted">Калории оцениваются по весу, времени и условному MET. Это не измерение, а приблизительный общий расход, включая расход в покое.</p></div><div class="card"><h3>Резервная копия</h3><div class="actions"><button onclick="exportBackup()">Скачать JSON</button><button onclick="document.getElementById('importFile').click()">Восстановить JSON</button><input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(event)"></div><p class="muted">Перед обновлением HTML сохраняйте резервную копию. Данные разных файлов или браузеров могут храниться отдельно.</p></div></section>
@@ -58,10 +58,60 @@ function update(i,j,key,val){state.ex[i].sets[j][key]=key==='done'?val:Number(va
 function setRest(i,val){state.ex[i].rest=Number(val)||0;save()}
 function enableSound(){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume();return true}catch(e){return false}}
 function bell(count){if(!enableSound())return;for(let n=0;n<count;n++){let t=audioCtx.currentTime+n*.32;[880,1320,1760].forEach((freq,k)=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.065/(k+1),t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+.65);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+.7)})}}
-function startRest(seconds){if(!seconds)return;enableSound();restEnd=Date.now()+seconds*1000;restAlerted=false;bell(1);tick()}
+
+let backgroundRestAudio=null,backgroundRestUrl=null;
+let backgroundAudioEnabled=localStorage.getItem('mygym-bg-audio')==='1';
+function toggleBackgroundAudio(){
+ backgroundAudioEnabled=!backgroundAudioEnabled;
+ localStorage.setItem('mygym-bg-audio',backgroundAudioEnabled?'1':'0');
+ document.getElementById('backgroundAudioToggle').textContent='Фоновый звук: '+(backgroundAudioEnabled?'ВКЛ':'ВЫКЛ');
+ if(!backgroundAudioEnabled)stopBackgroundRestAudio();
+}
+function stopBackgroundRestAudio(){
+ if(backgroundRestAudio){backgroundRestAudio.pause();backgroundRestAudio.src='';backgroundRestAudio=null}
+ if(backgroundRestUrl){URL.revokeObjectURL(backgroundRestUrl);backgroundRestUrl=null}
+}
+function createRestWav(seconds){
+ const rate=11025, duration=Math.max(2,Math.min(600,Math.ceil(seconds)+1));
+ const samples=duration*rate, dataBytes=samples*2;
+ const buffer=new ArrayBuffer(44+dataBytes), view=new DataView(buffer);
+ const str=(pos,val)=>{for(let i=0;i<val.length;i++)view.setUint8(pos+i,val.charCodeAt(i))};
+ str(0,'RIFF');view.setUint32(4,36+dataBytes,true);str(8,'WAVE');str(12,'fmt ');
+ view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);
+ view.setUint32(24,rate,true);view.setUint32(28,rate*2,true);view.setUint16(32,2,true);
+ view.setUint16(34,16,true);str(36,'data');view.setUint32(40,dataBytes,true);
+ const bellAt=(t,at)=>{const elapsed=t-at;if(elapsed<0||elapsed>.55)return 0;
+ const fade=Math.min(1,elapsed/.02)*Math.exp(-elapsed*6);
+ return fade*(Math.sin(2*Math.PI*880*elapsed)*.38+Math.sin(2*Math.PI*1320*elapsed)*.20+Math.sin(2*Math.PI*1760*elapsed)*.12)};
+ for(let i=0;i<samples;i++){
+  const t=i/rate;
+  // Very quiet carrier; iOS may still suspend media playback when locked.
+  let v=.00005*Math.sin(2*Math.PI*110*t)+bellAt(t,.08)+bellAt(t,seconds)+bellAt(t,seconds+.34);
+  view.setInt16(44+i*2,Math.round(Math.max(-1,Math.min(1,v))*32767),true);
+ }
+ return new Blob([buffer],{type:'audio/wav'});
+}
+function playBackgroundRest(seconds){
+ stopBackgroundRestAudio();
+ if(!backgroundAudioEnabled)return false;
+ try{
+  backgroundRestUrl=URL.createObjectURL(createRestWav(seconds));
+  backgroundRestAudio=new Audio(backgroundRestUrl);
+  backgroundRestAudio.preload='auto';
+  backgroundRestAudio.setAttribute('playsinline','');
+  if('mediaSession' in navigator){
+   navigator.mediaSession.metadata=new MediaMetadata({title:'Отдых — MyGym',artist:'Таймер тренировки'});
+  }
+  const promise=backgroundRestAudio.play();
+  if(promise)promise.catch(()=>{document.getElementById('workoutNotice').textContent='Фоновое аудио заблокировано iOS. Сигнал при открытом экране продолжит работать.'});
+  return true;
+ }catch(e){return false}
+}
+
+function startRest(seconds){if(!seconds)return;enableSound();restEnd=Date.now()+seconds*1000;restAlerted=false;if(!playBackgroundRest(seconds))bell(1);tick()}
 function fmt(sec){sec=Math.max(0,Math.floor(sec));return [Math.floor(sec/3600),Math.floor(sec/60)%60,sec%60].map(x=>String(x).padStart(2,'0')).join(':')}
 function elapsed(){return state.elapsed+(state.startedAt?Math.floor((Date.now()-state.startedAt)/1000):0)}
-function tick(){document.getElementById('clock').textContent=fmt(elapsed());if(restEnd && Date.now()>=restEnd && !restAlerted){restAlerted=true;bell(2)}document.getElementById('rest').textContent=restEnd>Date.now()?'Отдых: '+Math.ceil((restEnd-Date.now())/1000)+' сек':restEnd?'Отдых завершён':''}
+function tick(){document.getElementById('clock').textContent=fmt(elapsed());if(restEnd && Date.now()>=restEnd && !restAlerted){restAlerted=true;if(!backgroundRestAudio || backgroundRestAudio.paused)bell(2)}document.getElementById('rest').textContent=restEnd>Date.now()?'Отдых: '+Math.ceil((restEnd-Date.now())/1000)+' сек':restEnd?'Отдых завершён':''}
 setInterval(tick,1000);
 function startWorkout(){if(!state.startedAt){state.startedAt=Date.now();save()}document.getElementById('workoutNotice').textContent='Тренировка идёт';renderControls()}
 function renderControls(){const active=!!state.startedAt;document.getElementById('start').style.display=active?'none':'';document.getElementById('finish').style.display=active?'':'none';document.getElementById('finish').disabled=!active;document.getElementById('finish').className=active?'primary':'';tick()}
@@ -71,7 +121,7 @@ function finishWorkout(){
  const kg=Number(state.profile.weight)||0, met=Number(state.profile.intensity)||4;
  const kcal=kg?Math.round(met*3.5*kg/200*seconds/60):null;
  state.history.unshift({date:new Date().toISOString(),ex:JSON.parse(JSON.stringify(state.ex)),durationSeconds:seconds,kcal});
- state.startedAt=null;state.elapsed=0;restEnd=0;restAlerted=true;
+ state.startedAt=null;state.elapsed=0;restEnd=0;restAlerted=true;stopBackgroundRestAudio();
  state.ex.forEach(e=>e.sets.forEach(set=>set.done=false));
  save();renderControls();renderWorkout();renderHistory();
  document.getElementById('workoutNotice').textContent='Тренировка сохранена: '+fmt(seconds)+(kcal?' · около '+kcal+' ккал':' · укажите вес в профиле для расчёта калорий');
@@ -112,6 +162,7 @@ function setupDrag(){document.querySelectorAll('.drag-handle').forEach(h=>{
  h.addEventListener('pointercancel',()=>{dragIndex=null;dragPointer=null;renderWorkout()});
 })}
 document.addEventListener('pointerdown',enableSound,{once:true});
+window.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('backgroundAudioToggle');if(b)b.textContent='Фоновый звук: '+(backgroundAudioEnabled?'ВКЛ':'ВЫКЛ')});
 
 function openPicker(phase){targetPhase=phase;modalFilter=phase==='warm'?'Разминка':phase==='cool'?'Заминка':'Все';document.getElementById('modal').classList.add('open');document.getElementById('modalBody').innerHTML='<input id="modalSearch" placeholder="Найти упражнение..." style="width:100%" oninput="renderPicker()"><div class="chips" id="modalFilters"></div><div id="modalItems"></div><button onclick="addCustomFromPicker()">＋ Своё упражнение</button>';renderPicker()}
 function setModalFilter(x){modalFilter=x;renderPicker()}
