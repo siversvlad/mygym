@@ -1,0 +1,120 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MyGym 5.8</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#17243a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="MyGym"><link rel="apple-touch-icon" href="./icon-192.png"><style>
+:root{font-family:system-ui,-apple-system,Arial,sans-serif;color:#17243a;background:#f4f6fa}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 13px;background:#e8edf5;color:#17243a}button.primary{background:#2265e8;color:white}button.danger{background:#ffe9e8;color:#b42318}button.small{padding:7px 10px;font-size:13px}input,select{border:1px solid #d6deea;border-radius:10px;padding:10px;min-width:0;background:white;color:#17243a}main{max-width:760px;margin:auto;padding:18px 15px 95px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}h1{font-size:24px;margin:0}h2{font-size:20px;margin:8px 0 14px}h3{font-size:16px;margin:0 0 9px}.muted{color:#67768d;font-size:13px}.card{background:white;border:1px solid #e5eaf2;border-radius:17px;padding:16px;margin-bottom:13px;box-shadow:0 2px 10px #17243a07}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.tabs{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e3e8ef;display:flex;justify-content:center;z-index:5;padding:8px 4px env(safe-area-inset-bottom)}.tabs button{background:transparent;flex:1;max-width:180px;padding:8px 2px;font-size:12px}.tabs button.active{color:#2265e8;background:#edf3ff}.tab{display:none}.tab.active{display:block}.chips{display:flex;gap:7px;overflow:auto;padding:4px 0 12px}.chips button{white-space:nowrap;font-size:13px}.chips .active{background:#2265e8;color:white}.exrow{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef1f6;padding:10px 0;gap:8px}.exrow:last-child{border:0}.tap-ex{width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid #eef1f6;border-radius:0;padding:13px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:58px}.tap-ex.selected{background:#eaf5ee;color:#166534;border-radius:10px}.tap-ex .mark{font-size:22px;color:#94a3b8}.tap-ex.selected .mark{color:#16803c}.tap-ex:active{background:#e8edf5}.catalog-row{display:flex;align-items:center;border-bottom:1px solid #eef1f6}.catalog-row .tap-ex{flex:1;border:0}.catalog-row .fav{flex:none}.sets{width:100%;border-collapse:collapse;margin-top:8px}.sets td,.sets th{padding:5px 3px;text-align:center;font-size:13px}.sets input{width:100%;max-width:105px;text-align:center;padding:8px 3px}.sets input[type=checkbox]{width:20px;height:20px}.phase{font-weight:700;margin:20px 0 10px}.timer{font-size:32px;font-weight:750;font-variant-numeric:tabular-nums}.field{display:grid;gap:5px;flex:1;min-width:125px;margin-bottom:10px}.field label{font-size:13px;color:#56657a}.overlay{position:fixed;inset:0;background:#10213a99;z-index:10;display:none;align-items:flex-end;justify-content:center}.overlay.open{display:flex}.sheet{background:#f7f9fc;width:100%;max-width:760px;border-radius:22px 22px 0 0;padding:17px;max-height:88vh;overflow:auto}.tag{font-size:11px;color:#536782;background:#edf2f8;padding:4px 7px;border-radius:8px}.empty{text-align:center;color:#6c7c91;padding:18px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}@media(min-width:800px){.overlay{align-items:center}.sheet{border-radius:22px;max-height:85vh}}
+</style></head><body><main><header><div><h1>MyGym <span style="color:#2265e8">5.8</span></h1><div class="muted">Тренировки без лишних действий</div></div><span class="tag" id="saved">Данные на устройстве</span></header>
+<section id="training" class="tab active"><div class="card"><div class="row between"><div><div class="muted">Время тренировки</div><div class="timer" id="clock">00:00:00</div></div><div class="row"><button id="start" class="primary" onclick="startWorkout()">Начать тренировку</button><button id="finish" onclick="finishWorkout()" style="display:none">Завершить</button></div></div><div id="rest" class="muted" style="margin-top:10px"></div><div id="workoutNotice" class="muted" aria-live="polite"></div></div><div id="workout"></div></section>
+<section id="library" class="tab"><div class="card"><h2>Каталог упражнений</h2><input id="search" placeholder="Поиск упражнения..." style="width:100%" oninput="renderLibrary()"><div class="chips" id="filters"></div><div id="catalogItems"></div><div class="actions"><button onclick="addCustom()">＋ Своё упражнение</button></div></div></section>
+<section id="history" class="tab"><h2>История тренировок</h2><div id="historyItems"></div></section>
+<section id="profile" class="tab"><h2>Профиль спортсмена</h2><div class="card"><div class="row"><div class="field"><label>Имя</label><input id="pname" placeholder="Имя"></div><div class="field"><label>Пол</label><select id="psex"><option value="">Не указан</option><option value="m">Мужской</option><option value="f">Женский</option></select></div></div><div class="row"><div class="field"><label>Возраст, лет</label><input id="page" type="number" min="1"></div><div class="field"><label>Рост, см</label><input id="pheight" type="number" min="1"></div><div class="field"><label>Вес, кг</label><input id="pweight" type="number" min="1" step=".1"></div></div><div class="field"><label>Интенсивность тренировки</label><select id="pintensity"><option value="3">Лёгкая</option><option value="4">Средняя</option><option value="5.5">Высокая</option></select></div><button class="primary" onclick="saveProfile()">Сохранить профиль</button><p class="muted">Калории оцениваются по весу, времени и условному MET. Это не измерение, а приблизительный общий расход, включая расход в покое.</p></div><div class="card"><h3>Резервная копия</h3><div class="actions"><button onclick="exportBackup()">Скачать JSON</button><button onclick="document.getElementById('importFile').click()">Восстановить JSON</button><input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(event)"></div><p class="muted">Перед обновлением HTML сохраняйте резервную копию. Данные разных файлов или браузеров могут храниться отдельно.</p></div></section>
+</main><nav class="tabs"><button class="active" data-tab="training" onclick="tab('training')">🏋️<div>Тренировка</div></button><button data-tab="library" onclick="tab('library')">📚<div>Упражнения</div></button><button data-tab="history" onclick="tab('history')">📈<div>История</div></button><button data-tab="profile" onclick="tab('profile')">👤<div>Профиль</div></button></nav>
+<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet"><div class="row between"><h2>Выбрать упражнения</h2><button onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
+<script>
+const SEED={"ex": [{"name": "Жим ногами", "rest": 180, "sets": [{"kg": 125, "reps": 20, "done": false}, {"kg": 150, "reps": 20, "done": false}, {"kg": 175, "reps": 17, "done": false}, {"kg": 200, "reps": 12, "done": false}, {"kg": 200, "reps": 15, "done": false}]}, {"name": "Тяга верхнего блока", "rest": 90, "sets": [{"kg": 64, "reps": 15, "done": false}, {"kg": 68, "reps": 15, "done": false}, {"kg": 73, "reps": 12, "done": false}, {"kg": 77, "reps": 12, "done": false}, {"kg": 77, "reps": 12, "done": false}]}, {"name": "Бабочка", "rest": 60, "sets": [{"kg": 59, "reps": 15, "done": false}, {"kg": 68, "reps": 15, "done": false}, {"kg": 72.6, "reps": 12, "done": false}, {"kg": 77.1, "reps": 9, "done": false}, {"kg": 77.1, "reps": 10, "done": false}]}], "history": [{"date": "2026-11-18T16:56:36.034Z", "ex": [{"name": "Жим ногами", "rest": 180, "sets": [{"kg": 125, "reps": 20, "done": true}, {"kg": 150, "reps": 20, "done": true}, {"kg": 175, "reps": 17, "done": true}, {"kg": 200, "reps": 12, "done": true}, {"kg": 200, "reps": 15, "done": true}]}, {"name": "Тяга верхнего блока", "rest": 90, "sets": [{"kg": 64, "reps": 15, "done": true}, {"kg": 68, "reps": 15, "done": true}, {"kg": 73, "reps": 12, "done": true}, {"kg": 77, "reps": 12, "done": true}, {"kg": 77, "reps": 12, "done": true}]}, {"name": "Бабочка", "rest": 60, "sets": [{"kg": 59, "reps": 15, "done": true}, {"kg": 68, "reps": 15, "done": true}, {"kg": 72.6, "reps": 12, "done": true}, {"kg": 77.1, "reps": 9, "done": true}, {"kg": 77.1, "reps": 10, "done": true}]}]}], "favorites": ["Жим ногами", "Тяга верхнего блока", "Бабочка"]};const CATALOG={"Грудь": ["Жим штанги лёжа", "Жим гантелей лёжа", "Жим в грудном тренажёре", "Жим в Смите", "Жим на наклонной скамье", "Жим гантелей под наклоном", "Бабочка", "Сведение рук в кроссовере", "Отжимания", "Пуловер с гантелью"], "Спина": ["Тяга верхнего блока", "Тяга верхнего блока узким хватом", "Подтягивания", "Подтягивания в гравитроне", "Горизонтальная тяга блока", "Тяга штанги в наклоне", "Тяга гантели одной рукой", "Тяга Т-грифа", "Тяга рычажного тренажёра", "Гиперэкстензия"], "Ноги": ["Жим ногами", "Приседания с гантелью", "Приседания со штангой", "Приседания в Смите", "Гакк-приседания", "Разгибание ног сидя", "Сгибание ног лёжа", "Сгибание ног сидя", "Румынская тяга", "Ягодичный мост", "Отведение бедра в тренажёре", "Приведение бедра в тренажёре", "Подъём на носки сидя", "Подъём на носки стоя"], "Плечи": ["Жим гантелей сидя", "Жим плечами в тренажёре", "Жим штанги стоя", "Махи гантелями в стороны", "Подъём гантелей перед собой", "Обратная бабочка", "Тяга каната к лицу", "Разведение гантелей в наклоне"], "Руки": ["Сгибание рук со штангой", "Сгибание рук с гантелями", "Молотки", "Сгибание рук на скамье Скотта", "Сгибание рук в блоке", "Разгибание рук на верхнем блоке", "Французский жим", "Разгибание рук с канатом", "Разгибание руки из-за головы", "Отжимания от скамьи"], "Кор": ["Планка", "Боковая планка", "Скручивания", "Обратные скручивания", "Подъём коленей в висе", "Мёртвый жук", "Птица-собака", "Паллоф-пресс"], "Кардио": ["Велотренажёр", "Спин-байк", "Гребной тренажёр", "Эллипсоид", "Беговая дорожка", "Степпер"], "Разминка": ["Лёгкий велотренажёр", "Лёгкая ходьба", "Круги плечами", "Мобилизация тазобедренных суставов", "Плавные сгибания и разгибания коленей", "Разминочный подход"], "Заминка": ["Спокойный велотренажёр", "Медленная ходьба", "Растяжка икроножных мышц", "Мягкая растяжка грудных мышц", "Растяжка задней поверхности бедра", "Спокойное дыхание"]};const KEY='mygym-v5-data';const groups=Object.keys(CATALOG);const cardio=CATALOG['Кардио'];const warm=CATALOG['Разминка'];const cool=CATALOG['Заминка'];
+let state;try{state=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!state){state={ex:(SEED.ex||[]).map(x=>({...x,phase:'main',kind:'strength'})),history:SEED.history||[],favorites:SEED.favorites||[],custom:[],profile:{},startedAt:null,elapsed:0};save()}
+state.ex=state.ex||[];state.history=state.history||[];state.favorites=state.favorites||[];state.custom=state.custom||[];state.profile=state.profile||{};state.elapsed=state.elapsed||0;
+let filter='Все',targetPhase='main',modalFilter='Все',restEnd=0;
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function tab(id){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.id===id));document.querySelectorAll('.tabs button').forEach(e=>e.classList.toggle('active',e.dataset.tab===id));if(id==='library')renderLibrary();if(id==='history')renderHistory();if(id==='profile')loadProfile()}
+function phaseFor(name){return warm.includes(name)?'warm':cool.includes(name)?'cool':'main'}
+function kindFor(name){return cardio.includes(name)||name.includes('велотренажёр')||name.includes('ходьба')?'cardio':warm.includes(name)||cool.includes(name)?'timed':'strength'}
+function allItems(){return [...groups.flatMap(g=>CATALOG[g].map(name=>({name,group:g}))),...state.custom.map(name=>({name,group:'Свои'}))]}
+function filtered(f,q){return allItems().filter(x=>(f==='Все'||x.group===f||f==='★ Избранное'&&state.favorites.includes(x.name))&&x.name.toLowerCase().includes(q.toLowerCase()))}
+function chips(id,selected,handler,options){document.getElementById(id).innerHTML=options.map(x=>`<button class="${selected===x?'active':''}" onclick="${handler}(${JSON.stringify(x).replace(/"/g,'&quot;')})">${esc(x)}</button>`).join('')}
+function setFilter(x){filter=x;renderLibrary()}
+function selectedExercise(name){return state.ex.some(e=>e.name===name)}
+function toggleExercise(name,phase){
+ const index=state.ex.findIndex(e=>e.name===name);
+ if(index>=0){state.ex.splice(index,1)}
+ else{const kind=kindFor(name);state.ex.push({name,phase,kind,rest:90,sets:kind==='strength'?[{kg:0,reps:12,done:false}]:[{minutes:5,km:0,level:1,done:false}]})}
+ save();renderWorkout();
+ if(document.getElementById('library').classList.contains('active'))renderLibrary();
+ if(document.getElementById('modal').classList.contains('open'))renderPicker();
+}
+function exerciseTap(name,phase){
+ const selected=selectedExercise(name),n=JSON.stringify(name).replace(/"/g,'&quot;');
+ return `<button type="button" class="tap-ex ${selected?'selected':''}" aria-pressed="${selected}" onclick="toggleExercise(${n},'${phase}')"><span><b>${esc(name)}</b><div class="muted">${esc(allItems().find(x=>x.name===name)?.group||'Свои')}</div></span><span class="mark" aria-hidden="true">${selected?'✓':'○'}</span></button>`;
+}
+function renderLibrary(){chips('filters',filter,'setFilter',['Все','★ Избранное',...groups,'Свои']);let q=document.getElementById('search').value||'';document.getElementById('catalogItems').innerHTML=filtered(filter,q).map(x=>`<div class="catalog-row">${exerciseTap(x.name,phaseFor(x.name))}<button class="small fav" aria-label="Избранное" onclick="favorite(${JSON.stringify(x.name).replace(/"/g,'&quot;')})">${state.favorites.includes(x.name)?'★':'☆'}</button></div>`).join('')||'<div class="empty">Ничего не найдено</div>'}
+
+function favorite(n){state.favorites=state.favorites.includes(n)?state.favorites.filter(x=>x!==n):[...state.favorites,n];save();renderLibrary()}
+function addCustom(){let n=prompt('Название нового упражнения');if(!n||!n.trim())return;n=n.trim();if(!state.custom.includes(n))state.custom.push(n);save();renderLibrary()}
+function addExercise(name,phase){let kind=kindFor(name);state.ex.push({name,phase,kind,rest:90,sets:kind==='strength'?[{kg:0,reps:12,done:false}]:[{minutes:5,km:0,level:1,done:false}]});save();renderWorkout();closeModal();if(document.getElementById('library').classList.contains('active'))renderLibrary()}
+let lastRemoved=null;
+function removeExercise(i){
+ if(i<0||i>=state.ex.length)return;
+ lastRemoved={exercise:state.ex.splice(i,1)[0],index:i};
+ save();renderWorkout();
+ const notice=document.getElementById('workoutNotice');
+ notice.innerHTML='Упражнение «'+esc(lastRemoved.exercise.name)+'» удалено. <button class="small" onclick="undoRemove()">Отменить</button>';
+}
+function undoRemove(){
+ if(!lastRemoved)return;
+ state.ex.splice(Math.min(lastRemoved.index,state.ex.length),0,lastRemoved.exercise);
+ lastRemoved=null;save();renderWorkout();
+ document.getElementById('workoutNotice').textContent='Удаление отменено';
+}
+function addSet(i){let e=state.ex[i];e.sets.push({...e.sets[e.sets.length-1],done:false});save();renderWorkout()}
+function update(i,j,key,val){state.ex[i].sets[j][key]=key==='done'?val:Number(val)||0;save();if(key==='done'&&val&&state.ex[i].kind==='strength')startRest(state.ex[i].rest||90)}
+function setRest(i,val){state.ex[i].rest=Number(val)||0;save()}
+function startRest(seconds){if(!seconds)return;restEnd=Date.now()+seconds*1000;tick()}
+function fmt(sec){sec=Math.max(0,Math.floor(sec));return [Math.floor(sec/3600),Math.floor(sec/60)%60,sec%60].map(x=>String(x).padStart(2,'0')).join(':')}
+function elapsed(){return state.elapsed+(state.startedAt?Math.floor((Date.now()-state.startedAt)/1000):0)}
+function tick(){document.getElementById('clock').textContent=fmt(elapsed());document.getElementById('rest').textContent=restEnd>Date.now()?'Отдых: '+Math.ceil((restEnd-Date.now())/1000)+' сек':''}
+setInterval(tick,1000);
+function startWorkout(){if(!state.startedAt){state.startedAt=Date.now();save()}document.getElementById('workoutNotice').textContent='Тренировка идёт';renderControls()}
+function renderControls(){const active=!!state.startedAt;document.getElementById('start').style.display=active?'none':'';document.getElementById('finish').style.display=active?'':'none';document.getElementById('finish').disabled=!active;document.getElementById('finish').className=active?'primary':'';tick()}
+function finishWorkout(){
+ if(!state.startedAt){alert('Сначала нажмите «Начать тренировку»');return}
+ const seconds=elapsed();
+ const kg=Number(state.profile.weight)||0, met=Number(state.profile.intensity)||4;
+ const kcal=kg?Math.round(met*3.5*kg/200*seconds/60):null;
+ state.history.unshift({date:new Date().toISOString(),ex:JSON.parse(JSON.stringify(state.ex)),durationSeconds:seconds,kcal});
+ state.startedAt=null;state.elapsed=0;restEnd=0;
+ state.ex.forEach(e=>e.sets.forEach(set=>set.done=false));
+ save();renderControls();renderWorkout();renderHistory();
+ document.getElementById('workoutNotice').textContent='Тренировка сохранена: '+fmt(seconds)+(kcal?' · около '+kcal+' ккал':' · укажите вес в профиле для расчёта калорий');
+}
+function renderWorkout(){
+ const phases=[['warm','Разминка'],['main','Основная часть'],['cool','Заминка']];
+ let output='';
+ for(const [phase,title] of phases){
+  output+=`<div class="phase row between"><span>${title}</span><button class="small primary" onclick="openPicker('${phase}')">＋ Добавить</button></div>`;
+  const exercises=state.ex.map((e,i)=>({...e,i})).filter(e=>(e.phase||'main')===phase);
+  if(!exercises.length){output+='<div class="card muted">Пока пусто. Нажмите «Добавить».</div>';continue}
+  for(const e of exercises){
+   output+=`<div class="card"><div class="row between"><div><h3>${esc(e.name)}</h3><span class="tag">${e.kind==='cardio'?'Кардио':e.kind==='timed'?'Время':'Силовое'}</span></div><button class="small danger" onclick="removeExercise(${e.i})">Удалить</button></div>`;
+   output+='<table class="sets"><thead><tr>'+(e.kind==='strength'?'<th>№</th><th>Вес, кг</th><th>Повт.</th>':'<th>№</th><th>Мин.</th><th>Км</th><th>Уровень</th>')+'<th>✓</th></tr></thead><tbody>';
+   e.sets.forEach((set,j)=>{
+    output+=`<tr><td>${j+1}</td>`;
+    if(e.kind==='strength'){
+     output+=`<td><input type="number" step=".1" value="${set.kg||0}" onchange="update(${e.i},${j},'kg',this.value)"></td><td><input type="number" value="${set.reps||0}" onchange="update(${e.i},${j},'reps',this.value)"></td>`;
+    }else{
+     output+=`<td><input type="number" value="${set.minutes||0}" onchange="update(${e.i},${j},'minutes',this.value)"></td><td><input type="number" step=".1" value="${set.km||0}" onchange="update(${e.i},${j},'km',this.value)"></td><td><input type="number" value="${set.level||0}" onchange="update(${e.i},${j},'level',this.value)"></td>`;
+    }
+    output+=`<td><input type="checkbox" ${set.done?'checked':''} onchange="update(${e.i},${j},'done',this.checked)"></td></tr>`;
+   });
+   output+='</tbody></table><div class="row between" style="margin-top:10px">';
+   output+=`<button class="small" onclick="addSet(${e.i})">＋ ${e.kind==='strength'?'Подход':'Интервал'}</button>`;
+   if(e.kind==='strength')output+=`<label class="muted">Отдых, сек <input style="width:80px" type="number" value="${e.rest||0}" onchange="setRest(${e.i},this.value)"></label>`;
+   output+='</div></div>';
+  }
+ }
+ document.getElementById('workout').innerHTML=output;
+}
+function openPicker(phase){targetPhase=phase;modalFilter=phase==='warm'?'Разминка':phase==='cool'?'Заминка':'Все';document.getElementById('modal').classList.add('open');document.getElementById('modalBody').innerHTML='<input id="modalSearch" placeholder="Найти упражнение..." style="width:100%" oninput="renderPicker()"><div class="chips" id="modalFilters"></div><div id="modalItems"></div><button onclick="addCustomFromPicker()">＋ Своё упражнение</button>';renderPicker()}
+function setModalFilter(x){modalFilter=x;renderPicker()}
+function renderPicker(){let opts=['Все','★ Избранное',...groups,'Свои'];chips('modalFilters',modalFilter,'setModalFilter',opts);let q=document.getElementById('modalSearch').value||'';document.getElementById('modalItems').innerHTML=filtered(modalFilter,q).map(x=>exerciseTap(x.name,targetPhase)).join('')||'<div class="empty">Не найдено</div>'}
+
+function addCustomFromPicker(){let n=prompt('Название упражнения');if(!n||!n.trim())return;n=n.trim();if(!state.custom.includes(n))state.custom.push(n);addExercise(n,targetPhase)}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function renderHistory(){document.getElementById('historyItems').innerHTML=state.history.map(h=>`<div class="card"><b>${new Date(h.date).toLocaleString('ru-RU')}</b><div class="muted">${h.durationSeconds?'Длительность: '+fmt(h.durationSeconds):'Время не записано'} ${h.kcal?' · ~'+h.kcal+' ккал':''}</div><div style="margin-top:9px">${(h.ex||[]).map(e=>`<div class="exrow"><span>${esc(e.name)}</span><span class="muted">${e.sets?.filter(s=>s.done).length||0} выполнено</span></div>`).join('')}</div></div>`).join('')||'<div class="card">Пока нет тренировок</div>'}
+function loadProfile(){let p=state.profile;for(let [id,k] of [['pname','name'],['psex','sex'],['page','age'],['pheight','height'],['pweight','weight'],['pintensity','intensity']])document.getElementById(id).value=p[k]??(k==='intensity'?'4':'')}
+function saveProfile(){state.profile={name:document.getElementById('pname').value,sex:document.getElementById('psex').value,age:document.getElementById('page').value,height:document.getElementById('pheight').value,weight:document.getElementById('pweight').value,intensity:document.getElementById('pintensity').value};save();alert('Профиль сохранён')}
+function exportBackup(){let blob=new Blob([JSON.stringify({...state,backupVersion:5},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mygym-backup-v5.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function importBackup(ev){let file=ev.target.files[0];if(!file)return;file.text().then(s=>{let d=JSON.parse(s);if(!Array.isArray(d.ex)||!Array.isArray(d.history))throw Error('Неверный формат');if(!confirm('Заменить текущие данные резервной копией?'))return;state={ex:d.ex.map(e=>({...e,phase:e.phase||'main',kind:e.kind||'strength'})),history:d.history,favorites:d.favorites||[],custom:d.custom||[],profile:d.profile||{},startedAt:null,elapsed:0};save();renderWorkout();renderHistory();renderLibrary();renderControls();alert('Данные восстановлены')}).catch(e=>alert('Не удалось импортировать: '+e.message));ev.target.value=''}
+renderWorkout();renderControls();tick();
+</script><script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn));
+}
+</script></body></html>
